@@ -82,7 +82,7 @@ public class DBProyecto1Eva {
                 + "values("
                 + numCompra + ","
                 + codCli +","
-                + fecha + ")";
+                + "to_date('"+fecha+"', 'dd/mm/yy')" + ")";
         System.out.println(sql);
         conectar();
         try {
@@ -126,6 +126,39 @@ public class DBProyecto1Eva {
             desconectar();
         }
     }
+    	/*Metodo para crear un String con el que llenar el TextArea de la ventana GestionCompras
+    	 *  NUMCOMPRA  CODCLI   NOMBRE CLIENTE   IMPORTE TOTAL   NÚM-ART COMPRA
+			----------- -------- ---------------- --------------- ---------------
+  			Xxxxx     xxxxx    xxxxxxxxxxxxxx    xxxxxxxxxx       xxxxxxxx
+			Xxxxx     xxxxx    xxxxxxxxxxxxxx    xxxxxxxxxx       xxxxxxxx 
+				Dónde:
+				IMPORTE TOTAL es la suma de los importes (unidades*precio) de los artículos que forman la compra.
+				NÚM-ART COMPRA, es el número de artículos que forman la compra.
+    	 * */ 
+    
+    
+    
+    public static String sentenciaGestionCompras(){
+    	
+        ResultSet rs = null;
+        ResultSet numart= null;
+        
+        String sql = "select codigo_cli from clientes";
+        String numArti="";
+        try {
+            int i = 0;
+            rs = sentenciaSQL.executeQuery(sql);
+            
+            while (rs.next()) {
+               
+                i++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    	return null;
+    }
     //Metodo para llenar el ComboBox de GestionCompras que tiene los codigos de cliente
     public static String[] listarClientes() {
         int conta = contarClientes();
@@ -156,7 +189,7 @@ public class DBProyecto1Eva {
             rs = sentenciaSQL.executeQuery(sql);
             rs.first();
             conta = rs.getInt(1);
-
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,7 +206,7 @@ public class DBProyecto1Eva {
 	            rs = sentenciaSQL.executeQuery(sql);
 	            rs.first();
 	            nom= rs.getString(1);
-
+	            rs.close();
 	        } catch (SQLException ex) {
 	            Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
 	        }

@@ -42,6 +42,7 @@ public class GestionCompras extends JDialog implements ActionListener{
 	private JTextArea textArea;
 	private JTextField txtFechaCompraMes;
 	private JTextField txtFechaCompraAnio;
+	private JButton btnVisualizarCompra;
 
 
 	/**
@@ -127,17 +128,24 @@ public class GestionCompras extends JDialog implements ActionListener{
 		txtFechaCompraAnio.setFont(new Font("Serif", Font.PLAIN, 14));
 		txtFechaCompraAnio.setColumns(10);
 		
+		btnVisualizarCompra = new JButton("Visualizar Compra");
+		btnVisualizarCompra.setFont(new Font("Serif", Font.PLAIN, 14));
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(34)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblCodigoCliente)
-						.addComponent(lblNCompra)
-						.addComponent(cbxCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtNumCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(48)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(11)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblCodigoCliente)
+								.addComponent(lblNCompra)
+								.addComponent(cbxCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(txtNumCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(49)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblFechaDeCompra)
@@ -154,9 +162,10 @@ public class GestionCompras extends JDialog implements ActionListener{
 							.addComponent(txtFechaCompraAnio, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
 					.addGap(32)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnVisualizarCompra, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
 						.addComponent(btnLimpiarPantalla, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnVerificarCompra, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(36, Short.MAX_VALUE))
+					.addContainerGap(33, Short.MAX_VALUE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap(109, Short.MAX_VALUE)
 					.addComponent(btnAltas)
@@ -165,12 +174,12 @@ public class GestionCompras extends JDialog implements ActionListener{
 					.addGap(18)
 					.addComponent(btnModificar)
 					.addGap(18)
-					.addComponent(btnVolver)
-					.addGap(106))
-				.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
+					.addComponent(btnVolver, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+					.addGap(94))
+				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 522, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(21, Short.MAX_VALUE))
+					.addContainerGap(17, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -179,24 +188,29 @@ public class GestionCompras extends JDialog implements ActionListener{
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCodigoCliente)
 						.addComponent(lblNewLabel))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cbxCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnVerificarCompra))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNCompra)
-						.addComponent(lblFechaDeCompra))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNCompra)
+								.addComponent(lblFechaDeCompra)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnVisualizarCompra, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtNumCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtFechaCompraDia, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel_1)
 						.addComponent(txtFechaCompraMes, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 						.addComponent(label, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtFechaCompraAnio, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLimpiarPantalla, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnLimpiarPantalla, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtNumCompra))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
@@ -232,8 +246,15 @@ public class GestionCompras extends JDialog implements ActionListener{
 		else if(evento==btnLimpiarPantalla){
 			textArea.setText("");
 		}
-		else if(evento==btnModificar){}
-		else if(evento==btnVerificarCompra){}
+		else if(evento==btnModificar){
+			
+		}
+		else if(evento==btnVerificarCompra){
+			
+		}
+		else if(evento==btnVisualizarCompra){
+			
+		}
 		else if(evento==btnVolver){
 			GestionCompras gtc=new GestionCompras(null, false);
 			gtc.setVisible(false);
