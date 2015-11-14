@@ -1,6 +1,7 @@
 package controlador;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -76,7 +77,7 @@ public class DBProyecto1Eva {
 //        return list;
 //    }
     //Altas de compras.
-    public static void AltaCompras(int numCompra, int codCli,DATE fecha) {
+    public static void AltaCompras(int numCompra, int codCli,String fecha) {
         String sql = "insert into Compras (numcompra,codigo_cli,fechacompra)"
                 + "values("
                 + numCompra + ","
@@ -97,10 +98,10 @@ public class DBProyecto1Eva {
 
     //Modificaciones de compras.
 
-    public static void actualizarCompras(int numCompra, int codCli,DATE fecha) {
+    public static void actualizarCompras(int numCompra, int codCli,String fecha) {
         try {
             String sql = "update Compras set codigo_cli="+codCli 
-                    + ", fechacompra=" + fecha
+                    + ", fechacompra=" + "to_date('"+fecha+"', 'dd/mm/yy')"
                     + " where numcompra=" + numCompra;
 
             System.out.println(sql);
