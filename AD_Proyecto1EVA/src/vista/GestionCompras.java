@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class GestionCompras extends JDialog implements ActionListener{
 
@@ -67,12 +68,14 @@ public class GestionCompras extends JDialog implements ActionListener{
 		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		
 		txtNumCompra = new JTextField();
+		txtNumCompra.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtNumCompra.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		txtNumCompra.setColumns(10);
 		
 		txtNombreCliente = new JTextField();
 		txtNombreCliente.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		txtNombreCliente.setColumns(10);
+		txtNombreCliente.setEditable(false);
 		
 		JLabel lblNCompra = new JLabel("N\u00BA Compra");
 		lblNCompra.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -85,6 +88,7 @@ public class GestionCompras extends JDialog implements ActionListener{
 		cbxCliente.addActionListener(this);
 		
 		txtFechaCompraDia = new JTextField();
+		txtFechaCompraDia.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtFechaCompraDia.setFont(new Font("Serif", Font.PLAIN, 14));
 		txtFechaCompraDia.setColumns(10);
 		
@@ -118,6 +122,7 @@ public class GestionCompras extends JDialog implements ActionListener{
 		lblNewLabel_1.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		txtFechaCompraMes = new JTextField();
+		txtFechaCompraMes.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtFechaCompraMes.setFont(new Font("Serif", Font.PLAIN, 14));
 		txtFechaCompraMes.setColumns(10);
 		
@@ -125,11 +130,13 @@ public class GestionCompras extends JDialog implements ActionListener{
 		label.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		txtFechaCompraAnio = new JTextField();
+		txtFechaCompraAnio.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtFechaCompraAnio.setFont(new Font("Serif", Font.PLAIN, 14));
 		txtFechaCompraAnio.setColumns(10);
 		
 		btnVisualizarCompra = new JButton("Visualizar Compra");
 		btnVisualizarCompra.setFont(new Font("Serif", Font.PLAIN, 14));
+		btnVisualizarCompra.addActionListener(this);
 		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
@@ -223,7 +230,7 @@ public class GestionCompras extends JDialog implements ActionListener{
 		);
 		
 		textArea = new JTextArea();
-		textArea.setFont(new Font("Consolas", Font.PLAIN, 11));
+		textArea.setFont(new Font("Consolas", Font.PLAIN, 12));
 		scrollPane.setViewportView(textArea);
 		contentPanel.setLayout(gl_contentPanel);
 	}
@@ -240,7 +247,12 @@ public class GestionCompras extends JDialog implements ActionListener{
 			txtNombreCliente.setText(nombre);
 		}
 		if (evento==btnAltas) {
+			String fecha="";
+			fecha=String.format("%s:%s:%s", txtFechaCompraDia.getText(),txtFechaCompraMes.getText(),txtFechaCompraAnio.getText());
+			int numcompra=Integer.parseInt(txtNumCompra.getText());
+			int codCli=Integer.parseInt(cbxCliente.getSelectedItem().toString());
 			
+			DBProyecto1Eva.AltaCompras(numcompra, codCli, fecha);
 		}
 		else if(evento==btnBajas){}
 		else if(evento==btnLimpiarPantalla){
@@ -253,7 +265,7 @@ public class GestionCompras extends JDialog implements ActionListener{
 			
 		}
 		else if(evento==btnVisualizarCompra){
-			
+			textArea.setText(DBProyecto1Eva.sentenciaGestionCompras());
 		}
 		else if(evento==btnVolver){
 			GestionCompras gtc=new GestionCompras(null, false);

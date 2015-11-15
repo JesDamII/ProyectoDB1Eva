@@ -94,10 +94,22 @@ public class DBProyecto1Eva {
         } finally {
             desconectar();
         }
+        String fk="insert into detallecompras(numcompra) values("
+        		+numCompra+")";
+        conectar();
+        try {
+            if (sentenciaSQL.executeUpdate(fk) != 0) {
+                Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, "Contacto guardado...");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            desconectar();
+        }
+        
     }
 
     //Modificaciones de compras.
-
     public static void actualizarCompras(int numCompra, int codCli,String fecha) {
         try {
             String sql = "update Compras set codigo_cli="+codCli 
@@ -126,6 +138,7 @@ public class DBProyecto1Eva {
             desconectar();
         }
     }
+    
     	/*Metodo para crear un String con el que llenar el TextArea de la ventana GestionCompras
     	 *  NUMCOMPRA  CODCLI   NOMBRE CLIENTE   IMPORTE TOTAL   NÚM-ART COMPRA
 			----------- -------- ---------------- --------------- ---------------
@@ -133,33 +146,42 @@ public class DBProyecto1Eva {
 			Xxxxx     xxxxx    xxxxxxxxxxxxxx    xxxxxxxxxx       xxxxxxxx 
 				Dónde:
 				IMPORTE TOTAL es la suma de los importes (unidades*precio) de los artículos que forman la compra.
-				NÚM-ART COMPRA, es el número de artículos que forman la compra.
-    	 * */ 
-    
-    
-    
+				NÚM-ART COMPRA, es el número de artículos que forman la compra.* */ 
     public static String sentenciaGestionCompras(){
     	
         ResultSet rs = null;
-        ResultSet numart= null;
+        String espacio=" ";
         
-        String sql = "select codigo_cli from clientes";
-        String numArti="";
+        String sql = "select c.numcompra,c.codigo_cli,cl.nombre"+
+						", sum(dtc.unidades*art.precio)importe_total, sum(dtc.unidades)Num_art_Compra "+
+						"from Articulos art "+
+						"join DETALLECOMPRAS dtc on art.CODARTICULO=dtc.CODARTICULO "+
+						"join compras c on dtc.NUMCOMPRA=c.NUMCOMPRA "+
+						"join clientes cl on c.CODIGO_CLI=cl.CODIGO_CLI "+
+						"group by c.numcompra,c.codigo_cli,cl.nombre "+
+						"order by c.NUMCOMPRA";
+        System.out.println(sql);
+        
+        String acumulaCadena="NUMCOMPRA  CODCLI   NOMBRE CLIENTE     IMPORTE TOTAL   NÚM-ART COMPRA\n"+
+							 "---------  ------   --------------     -------------   --------------\n";
         try {
             int i = 0;
             rs = sentenciaSQL.executeQuery(sql);
             
             while (rs.next()) {
-               
-                i++;
+               acumulaCadena+=String.format("%9d %7d %1s %-15s %16.2f %16d %n", rs.getInt(1),rs.getInt(2),espacio,rs.getString(3),rs.getFloat(4),rs.getInt(5));
+               i++;
             }
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    	return null;
+    	return acumulaCadena;
     }
-    //Metodo para llenar el ComboBox de GestionCompras que tiene los codigos de cliente
+    
+    
+    //Metodo para llenar el ComboBox de GestionCompras que tiene la ventana GestionCompras
     public static String[] listarClientes() {
         int conta = contarClientes();
         ResultSet rs = null;
