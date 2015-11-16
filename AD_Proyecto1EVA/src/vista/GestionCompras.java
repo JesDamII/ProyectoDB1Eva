@@ -44,6 +44,8 @@ public class GestionCompras extends JDialog implements ActionListener{
 	private JTextField txtFechaCompraMes;
 	private JTextField txtFechaCompraAnio;
 	private JButton btnVisualizarCompra;
+	private JTextField txtUnidades;
+	private JComboBox cbxCdArti;
 
 
 	/**
@@ -55,11 +57,11 @@ public class GestionCompras extends JDialog implements ActionListener{
 		setLocationRelativeTo(null);
 		setTitle("Gesti\u00F3n de Compras\r\n");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 565, 619);
+		setBounds(100, 100, 565, 673);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(175, 238, 238));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		getContentPane().add(contentPanel, BorderLayout.SOUTH);
 		
 		JLabel lblCodigoCliente = new JLabel("Codigo Cliente");
 		lblCodigoCliente.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -85,6 +87,7 @@ public class GestionCompras extends JDialog implements ActionListener{
 		String clientes[]=DBProyecto1Eva.listarClientes();
 		DefaultComboBoxModel modeloCb=new DefaultComboBoxModel<>(clientes);
 		cbxCliente = new JComboBox(modeloCb);
+		cbxCliente.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		cbxCliente.addActionListener(this);
 		
 		txtFechaCompraDia = new JTextField();
@@ -138,60 +141,89 @@ public class GestionCompras extends JDialog implements ActionListener{
 		btnVisualizarCompra.setFont(new Font("Serif", Font.PLAIN, 14));
 		btnVisualizarCompra.addActionListener(this);
 		
+		String Articulos[]=DBProyecto1Eva.listarArticulos();
+		DefaultComboBoxModel modeloArti=new DefaultComboBoxModel<>(Articulos);
+		cbxCdArti = new JComboBox(modeloArti);
+		cbxCdArti.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cbxCdArti.addActionListener(this);
+		
+		JLabel lblNewLabel_2 = new JLabel("Codigo Articulo");
+		lblNewLabel_2.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		
+		JLabel lblNewLabel_3 = new JLabel("Unidades\r\n");
+		lblNewLabel_3.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		
+		txtUnidades = new JTextField();
+		txtUnidades.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		txtUnidades.setColumns(10);
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(11)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblCodigoCliente)
-								.addComponent(lblNCompra)
-								.addComponent(cbxCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(11)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblCodigoCliente)
+										.addComponent(lblNCompra)
+										.addComponent(cbxCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(txtNumCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(49)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblFechaDeCompra)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(txtFechaCompraDia, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(lblNewLabel_1)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtFechaCompraMes, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(label)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtFechaCompraAnio, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
+									.addGap(36)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnVisualizarCompra, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+										.addComponent(btnLimpiarPantalla, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+										.addComponent(btnVerificarCompra, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
+								.addComponent(lblNewLabel)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addComponent(lblNewLabel_3)
+										.addGap(57))
+									.addComponent(txtUnidades, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(112)
+							.addComponent(btnAltas)
+							.addGap(14)
+							.addComponent(btnBajas)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnModificar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnVolver, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(txtNumCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(49)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtNombreCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFechaDeCompra)
-						.addComponent(lblNewLabel)
+							.addComponent(lblNewLabel_2))
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(txtFechaCompraDia, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblNewLabel_1)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtFechaCompraMes, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(label)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtFechaCompraAnio, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
-					.addGap(32)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnVisualizarCompra, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-						.addComponent(btnLimpiarPantalla, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnVerificarCompra, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(33, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(109, Short.MAX_VALUE)
-					.addComponent(btnAltas)
-					.addGap(18)
-					.addComponent(btnBajas)
-					.addGap(18)
-					.addComponent(btnModificar)
-					.addGap(18)
-					.addComponent(btnVolver, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-					.addGap(94))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 522, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(17, Short.MAX_VALUE))
+							.addContainerGap()
+							.addComponent(cbxCdArti, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 522, GroupLayout.PREFERRED_SIZE)))
+					.addGap(17))
 		);
 		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(41)
+					.addContainerGap(41, Short.MAX_VALUE)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCodigoCliente)
 						.addComponent(lblNewLabel))
@@ -208,25 +240,38 @@ public class GestionCompras extends JDialog implements ActionListener{
 								.addComponent(lblFechaDeCompra)))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnLimpiarPantalla, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(6)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+									.addComponent(txtFechaCompraDia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblNewLabel_1)
+									.addComponent(txtFechaCompraMes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(label, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+									.addComponent(txtFechaCompraAnio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtNumCompra, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(14)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_2)
+								.addComponent(lblNewLabel_3))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(cbxCdArti, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtUnidades, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnVisualizarCompra, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFechaCompraDia, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1)
-						.addComponent(txtFechaCompraMes, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtFechaCompraAnio, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLimpiarPantalla, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtNumCompra))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 323, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAltas)
 						.addComponent(btnBajas)
 						.addComponent(btnModificar)
 						.addComponent(btnVolver))
-					.addGap(52))
+					.addGap(26))
 		);
 		
 		textArea = new JTextArea();
@@ -246,15 +291,26 @@ public class GestionCompras extends JDialog implements ActionListener{
 			nombre=DBProyecto1Eva.enlazarNombreCliente(codigo);
 			txtNombreCliente.setText(nombre);
 		}
+		else if(evento==cbxCliente){
+//			String nombre;
+//			String codigo=cbxCliente.getSelectedItem().toString();
+//			nombre=DBProyecto1Eva.enlazarNombreCliente(codigo);
+//			txtNombreCliente.setText(nombre);
+		}
 		if (evento==btnAltas) {
 			String fecha="";
 			fecha=String.format("%s:%s:%s", txtFechaCompraDia.getText(),txtFechaCompraMes.getText(),txtFechaCompraAnio.getText());
+			int cdar=Integer.parseInt(cbxCdArti.getSelectedItem().toString());
 			int numcompra=Integer.parseInt(txtNumCompra.getText());
 			int codCli=Integer.parseInt(cbxCliente.getSelectedItem().toString());
+			int uni=Integer.parseInt(txtUnidades.getText());
 			
-			DBProyecto1Eva.AltaCompras(numcompra, codCli, fecha);
+			DBProyecto1Eva.AltaCompras(numcompra, codCli,cdar,uni, fecha);
 		}
-		else if(evento==btnBajas){}
+		else if(evento==btnBajas){
+			int numcompra=Integer.parseInt(txtNumCompra.getText());
+			DBProyecto1Eva.bajaCompras(numcompra);
+		}
 		else if(evento==btnLimpiarPantalla){
 			textArea.setText("");
 		}
@@ -272,6 +328,5 @@ public class GestionCompras extends JDialog implements ActionListener{
 			gtc.setVisible(false);
 			dispose();
 		}
-		
 	}
 }

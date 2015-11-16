@@ -20,7 +20,7 @@ public class DBProyecto1Eva {
 
     private static Connection conexión;
     private static Statement sentenciaSQL;
-
+    
     private static void conectar() {
         try {
             Class.forName(CONTROLADOR_ORACLE).newInstance();
@@ -76,8 +76,10 @@ public class DBProyecto1Eva {
 //        
 //        return list;
 //    }
+    
+    
     //Altas de compras.
-    public static void AltaCompras(int numCompra, int codCli,String fecha) {
+    public static void AltaCompras(int numCompra, int codCli,int codarti,int unidades,String fecha) {
         String sql = "insert into Compras (numcompra,codigo_cli,fechacompra)"
                 + "values("
                 + numCompra + ","
@@ -91,11 +93,12 @@ public class DBProyecto1Eva {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            desconectar();
-        }
-        String fk="insert into detallecompras(numcompra) values("
-        		+numCompra+")";
+        } 
+//        finally {
+//            desconectar();
+//        }
+        String fk="insert into detallecompras(numcompra,codarticulo,unidades) values("
+        		+numCompra+","+codarti+","+unidades+")";
         conectar();
         try {
             if (sentenciaSQL.executeUpdate(fk) != 0) {
@@ -103,7 +106,8 @@ public class DBProyecto1Eva {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        } 
+        finally {
             desconectar();
         }
         
@@ -128,15 +132,24 @@ public class DBProyecto1Eva {
     
     ////Bajas para la tabla compras.
     public static void bajaCompras(int numCompra) {
+        
+    	conectar();
+        String sql = "delete from Compras where numcompra=" + numCompra;
+        String fk= "delete from detallecompras where numcompra=" + numCompra;
         try {
-            conectar();
-            String sql = "delete from Compras where numcompra=" + numCompra;
             sentenciaSQL.executeUpdate(sql);
+            
         } catch (SQLException ex) {
-            Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            desconectar();
-        }
+        	Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+//        finally {
+//            desconectar();
+//        }
+        try {
+			sentenciaSQL.executeUpdate(fk);
+		} catch (SQLException e) {
+			Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, e);
+		}
     }
     
     	/*Metodo para crear un String con el que llenar el TextArea de la ventana GestionCompras
@@ -217,7 +230,48 @@ public class DBProyecto1Eva {
         }
         return conta;
     }
+    
+    
+    
+  //Metodo para llenar el ComboBox de Codigo de artículos que tiene la ventana GestionCompras
+    public static String[] listarArticulos() {
+        int conta = contarArticulos();
+        ResultSet rs = null;
+        String[] articulos= new String[conta];
+        String sql = "select distinct codarticulo from detallecompras order by codarticulo";
+        try {
+            int i = 0;
+            rs = sentenciaSQL.executeQuery(sql);
+            while (rs.next()) {
+                articulos[i] = String.valueOf(rs.getInt("codarticulo"));
+                i++;
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+        return articulos;
+    }
+    
+    //Método para dimensionar el array del metodo listarArticulos().
+    private static int contarArticulos() {
+        conectar();
+        ResultSet rs = null;
+        int conta = 0;
+        String sql = "select count(distinct codarticulo) from detallecompras";
+        try {
+            rs = sentenciaSQL.executeQuery(sql);
+            rs.first();
+            conta = rs.getInt(1);
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBProyecto1Eva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return conta;
+    }
+    
+    //Para rellenar el TexField de nombre de Cliente de la ventana GestionCompras
 	public static String enlazarNombreCliente(String codCli) {
 		 conectar();
 	        ResultSet rs = null;
